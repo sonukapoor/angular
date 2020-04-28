@@ -146,6 +146,13 @@ export abstract class AssetGroup {
       // may specify things like credential inclusion, but for assets these are not honored in order
       // to avoid issues with opaque responses. The SW requests the data itself.
       const res = await this.fetchAndCacheOnce(this.adapter.newRequest(req.url));
+      if (!res) {
+        const clients = await this.scope.clients.matchAll();
+        clients.forEach(client => {
+          client.postMessage({type: 'RESOURCE_REMOVED', url: req.url});
+        });
+        return null;
+      }
 
       // If this is successful, the response needs to be cloned as it might be used to respond to
       // multiple fetch operations at the same time.

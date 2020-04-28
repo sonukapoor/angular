@@ -29,9 +29,11 @@ export declare class SwUpdate {
     readonly activated: Observable<UpdateActivatedEvent>;
     readonly available: Observable<UpdateAvailableEvent>;
     get isEnabled(): boolean;
+    readonly removed: Observable<ResourceRemovedEvent>;
     constructor(sw: ɵangular_packages_service_worker_service_worker_a);
     activateUpdate(): Promise<void>;
     checkForUpdate(): Promise<void>;
+    resourceRemoved(): Promise<void>;
 }
 
 export declare interface UpdateActivatedEvent {
