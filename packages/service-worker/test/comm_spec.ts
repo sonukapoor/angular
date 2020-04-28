@@ -435,6 +435,17 @@ import {MockPushManager, MockPushSubscription, MockServiceWorkerContainer, MockS
           },
         });
       });
+      it('processes resource removed notifications when sent', done => {
+        update.unrecovered.subscribe(event => {
+          expect(event.url).toEqual('https://example.com');
+          expect(event.type).toEqual('UNRECOVERABLE_STATE');
+          done();
+        });
+        mock.sendMessage({
+          type: 'UNRECOVERABLE_STATE',
+          url: 'https://example.com'
+        });
+      });
       it('processes update activation notifications when sent', done => {
         update.activated.subscribe(event => {
           expect(event.previous).toEqual({hash: 'A'});
@@ -510,6 +521,12 @@ import {MockPushManager, MockPushSubscription, MockServiceWorkerContainer, MockS
         it('gives an error when activating updates', done => {
           update = new SwUpdate(comm);
           update.activateUpdate().catch(err => {
+            done();
+          });
+        });
+        it('gives an error when removing updates', done => {
+          update = new SwUpdate(comm);
+          update.unrecoveredState().catch(err => {
             done();
           });
         });

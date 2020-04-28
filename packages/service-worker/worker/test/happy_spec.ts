@@ -1738,6 +1738,99 @@ describe('Driver', () => {
       expect(requestUrls2).toContain(httpsRequestUrl);
     });
 
+    it('broadcasts notifications about unrecoverable state', async () => {
+      const originalFiles = new MockFileSystemBuilder()
+                                .addFile('/index.html', '<script src="foo.hash.js"></script>')
+                                .addFile('/foo.hash.js', 'console.log("FOO");')
+                                .build();
+      const updatedFiles = new MockFileSystemBuilder()
+                               .addFile('/index.html', '<script src="bar.hash.js"></script>')
+                               .addFile('/bar.hash.js', 'console.log("BAR");')
+                               .build();
+
+      const originalManifest: Manifest = {
+        configVersion: 1,
+        timestamp: 1234567890123,
+        index: '/index.html',
+        assetGroups: [{
+          name: 'assets',
+          installMode: 'prefetch',
+          updateMode: 'prefetch',
+          urls: originalFiles.list(),
+          patterns: [],
+          cacheQueryOptions: {ignoreVary: true},
+        }],
+        dataGroups: [],
+        navigationUrls: processNavigationUrls(''),
+        hashTable: tmpHashTableForFs(originalFiles),
+      };
+
+      const updatedFilesManifest: Manifest = {
+        configVersion: 1,
+        timestamp: 1234567890123,
+        index: '/index.html',
+        assetGroups: [{
+          name: 'assets',
+          installMode: 'prefetch',
+          updateMode: 'prefetch',
+          urls: updatedFiles.list(),
+          patterns: [],
+          cacheQueryOptions: {ignoreVary: true},
+        }],
+        dataGroups: [],
+        navigationUrls: processNavigationUrls(''),
+        hashTable: tmpHashTableForFs(updatedFiles),
+      };
+
+      const originalServer = new MockServerStateBuilder()
+                                 .withManifest(originalManifest)
+                                 .withStaticFiles(originalFiles)
+                                 .build();
+      const updatedServer = new MockServerStateBuilder()
+                                .withManifest(updatedFilesManifest)
+                                .withStaticFiles(updatedFiles)
+                                .build();
+
+      // Create initial server state and initialize the SW.
+      scope = new SwTestHarnessBuilder().withServerState(originalServer).build();
+      driver = new Driver(scope, scope, new CacheDatabase(scope, scope));
+
+      expect(await makeRequest(scope, '/foo.hash.js')).toBe('console.log("FOO");');
+      await driver.initialized;
+      originalServer.clearRequests();
+
+      // Verify that the `foo.hash.js` file is cached.
+      expect(await makeRequest(scope, '/foo.hash.js')).toBe('console.log("FOO");');
+      originalServer.assertNoRequestFor('/foo.hash.js');
+
+      // Update the server state to emulate deploying a new version (where `foo.hash.js` does not
+      // exist any more). Keep the cache though.
+      scope = new SwTestHarnessBuilder()
+                  .withCacheState(scope.caches.dehydrate())
+                  .withServerState(updatedServer)
+                  .build();
+      driver = new Driver(scope, scope, new CacheDatabase(scope, scope));
+
+      // The SW is still able to serve `foo.hash.js` from the cache.
+      expect(await makeRequest(scope, '/foo.hash.js')).toBe('console.log("FOO");');
+      updatedServer.assertNoRequestFor('/foo.hash.js');
+
+      // Remove `foo.hash.js` from the cache to emulate the browser evicting files from the cache.
+      await clearAllCaches(scope.caches);
+
+      // Try to retrieve `foo.hash.js`, which is neither in the cache nor on the server.
+      // This should put the SW in an unrecoverable state and notify clients.
+      await expectAsync(makeRequest(scope, '/foo.hash.js'))
+          .toBeRejectedWithError(
+              'Response not Ok (fetchAndCacheOnce): request for /foo.hash.js returned response 404 Not Found');
+      updatedServer.assertSawRequestFor('/foo.hash.js');
+
+      const mockClient = scope.clients.getMock('default')!;
+      expect(mockClient.messages).toEqual([
+        {type: 'UNRECOVERABLE_STATE', url: '/foo.hash.js'},
+      ]);
+    });
+
     describe('backwards compatibility with v5', () => {
       beforeEach(() => {
         const serverV5 = new MockServerStateBuilder()

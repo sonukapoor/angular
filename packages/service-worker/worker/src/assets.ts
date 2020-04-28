@@ -306,6 +306,11 @@ export abstract class AssetGroup {
       // It's very important that only successful responses are cached. Unsuccessful responses
       // should never be cached as this can completely break applications.
       if (!res.ok) {
+        const clients = await this.scope.clients.matchAll();
+        clients.forEach(client => {
+          client.postMessage({type: 'UNRECOVERABLE_STATE', url: req.url});
+        });
+
         throw new Error(`Response not Ok (fetchAndCacheOnce): request for ${
             req.url} returned response ${res.status} ${res.statusText}`);
       }

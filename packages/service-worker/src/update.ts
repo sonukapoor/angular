@@ -9,7 +9,7 @@
 import {Injectable} from '@angular/core';
 import {NEVER, Observable} from 'rxjs';
 
-import {ERR_SW_NOT_SUPPORTED, NgswCommChannel, UpdateActivatedEvent, UpdateAvailableEvent} from './low_level';
+import {ERR_SW_NOT_SUPPORTED, NgswCommChannel, UnrecoverableStateEvent, UpdateActivatedEvent, UpdateAvailableEvent} from './low_level';
 
 
 
@@ -32,6 +32,11 @@ export class SwUpdate {
   readonly activated: Observable<UpdateActivatedEvent>;
 
   /**
+   * Emits an `UpdateActivatedEvent` event whenever the app has been updated to a new version.
+   */
+  readonly unrecovered: Observable<UnrecoverableStateEvent>;
+
+  /**
    * True if the Service Worker is enabled (supported by the browser and enabled via
    * `ServiceWorkerModule`).
    */
@@ -43,10 +48,12 @@ export class SwUpdate {
     if (!sw.isEnabled) {
       this.available = NEVER;
       this.activated = NEVER;
+      this.unrecovered = NEVER;
       return;
     }
     this.available = this.sw.eventsOfType<UpdateAvailableEvent>('UPDATE_AVAILABLE');
     this.activated = this.sw.eventsOfType<UpdateActivatedEvent>('UPDATE_ACTIVATED');
+    this.unrecovered = this.sw.eventsOfType<UnrecoverableStateEvent>('UNRECOVERABLE_STATE');
   }
 
   checkForUpdate(): Promise<void> {
@@ -63,5 +70,13 @@ export class SwUpdate {
     }
     const statusNonce = this.sw.generateNonce();
     return this.sw.postMessageWithStatus('ACTIVATE_UPDATE', {statusNonce}, statusNonce);
+  }
+
+  unrecoveredState(): Promise<void> {
+    if (!this.sw.isEnabled) {
+      return Promise.reject(new Error(ERR_SW_NOT_SUPPORTED));
+    }
+    const statusNonce = this.sw.generateNonce();
+    return this.sw.postMessageWithStatus('UNRECOVERABLE_STATE', {statusNonce}, statusNonce);
   }
 }

@@ -34,6 +34,16 @@ export interface UpdateActivatedEvent {
 }
 
 /**
+ * An event emitted when a new version of the app has been downloaded and activated.
+ *
+ * @publicApi
+ */
+export interface UnrecoverableStateEvent {
+  type: 'UNRECOVERABLE_STATE';
+  url: string;
+}
+
+/**
  * An event emitted when a `PushEvent` is received by the service worker.
  */
 export interface PushEvent {
@@ -41,7 +51,7 @@ export interface PushEvent {
   data: any;
 }
 
-export type IncomingEvent = UpdateAvailableEvent|UpdateActivatedEvent;
+export type IncomingEvent = UpdateAvailableEvent|UpdateActivatedEvent|UnrecoverableStateEvent;
 
 export interface TypedEvent {
   type: string;
