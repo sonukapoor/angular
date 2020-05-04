@@ -446,6 +446,11 @@ describe('Driver', () => {
     server.assertNoOtherRequests();
   });
 
+  fit('caches lazy content on-request', async () => {
+    spyOn(scope.caches, 'match').and.returnValue(Promise.resolve(undefined));
+    expect(await makeRequest(scope, '/foo.txt')).toBeNull(); // this always returns 'this is foo'
+  });
+
   it('updates to new content when requested', async () => {
     expect(await makeRequest(scope, '/foo.txt')).toEqual('this is foo');
     await driver.initialized;
