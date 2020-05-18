@@ -34,7 +34,7 @@ export interface UpdateActivatedEvent {
 }
 
 /**
- * An event emitted when a new version of the app has been downloaded and activated.
+ * An event emitted when a a resource can not be found anymore in the cache or on the server.
  *
  * @publicApi
  */

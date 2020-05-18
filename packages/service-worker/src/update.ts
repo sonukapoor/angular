@@ -32,7 +32,7 @@ export class SwUpdate {
   readonly activated: Observable<UpdateActivatedEvent>;
 
   /**
-   * Emits an `UpdateActivatedEvent` event whenever the app has been updated to a new version.
+   * Emits an `UnrecoverableStateEvent` event whenever the resource can not longer be found in the cache or server.
    */
   readonly unrecovered: Observable<UnrecoverableStateEvent>;
 
