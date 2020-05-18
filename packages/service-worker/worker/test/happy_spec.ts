@@ -1820,9 +1820,7 @@ describe('Driver', () => {
 
       // Try to retrieve `foo.hash.js`, which is neither in the cache nor on the server.
       // This should put the SW in an unrecoverable state and notify clients.
-      await expectAsync(makeRequest(scope, '/foo.hash.js'))
-          .toBeRejectedWithError(
-              'Response not Ok (fetchAndCacheOnce): request for /foo.hash.js returned response 404 Not Found');
+      expect(await makeRequest(scope, '/foo.hash.js')).toBeNull();
       updatedServer.assertSawRequestFor('/foo.hash.js');
 
       const mockClient = scope.clients.getMock('default')!;

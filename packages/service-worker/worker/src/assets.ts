@@ -149,10 +149,9 @@ export abstract class AssetGroup {
       // may specify things like credential inclusion, but for assets these are not honored in order
       // to avoid issues with opaque responses. The SW requests the data itself.
       const res = await this.fetchAndCacheOnce(this.adapter.newRequest(req.url));
-
       // If this is successful, the response needs to be cloned as it might be used to respond to
       // multiple fetch operations at the same time.
-      return res.clone();
+      return res.ok ? res.clone() : null
     } else {
       return null;
     }
@@ -311,8 +310,7 @@ export abstract class AssetGroup {
           client.postMessage({type: 'UNRECOVERABLE_STATE', url: req.url});
         });
 
-        throw new Error(`Response not Ok (fetchAndCacheOnce): request for ${
-            req.url} returned response ${res.status} ${res.statusText}`);
+        return res;
       }
 
       try {
