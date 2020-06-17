@@ -32,7 +32,11 @@ export class SwUpdate {
   readonly activated: Observable<UpdateActivatedEvent>;
 
   /**
-   * Emits an `UnrecoverableStateEvent` event whenever the resource can not longer be found in the cache or server.
+   * An event emitted when the version of the app used by the service worker to serve this client is
+   * in a broken state that cannot be recovered from and a full page reload is required.
+   *
+   * For example, this can happen when a required resource cannot be found neither in the cache nor
+   * on the server.
    */
   readonly unrecovered: Observable<UnrecoverableStateEvent>;
 
@@ -70,13 +74,5 @@ export class SwUpdate {
     }
     const statusNonce = this.sw.generateNonce();
     return this.sw.postMessageWithStatus('ACTIVATE_UPDATE', {statusNonce}, statusNonce);
-  }
-
-  unrecoveredState(): Promise<void> {
-    if (!this.sw.isEnabled) {
-      return Promise.reject(new Error(ERR_SW_NOT_SUPPORTED));
-    }
-    const statusNonce = this.sw.generateNonce();
-    return this.sw.postMessageWithStatus('UNRECOVERABLE_STATE', {statusNonce}, statusNonce);
   }
 }

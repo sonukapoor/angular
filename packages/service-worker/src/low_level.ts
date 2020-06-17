@@ -34,13 +34,18 @@ export interface UpdateActivatedEvent {
 }
 
 /**
- * An event emitted when a a resource can not be found anymore in the cache or on the server.
+ * An event emitted when the version of the app used by the service worker to serve this client is
+ * in a broken state that cannot be recovered from and a full page reload is required.
+ *
+ * For example, this can happen when a required resource cannot be found neither in the cache nor on
+ * the server.
  *
  * @publicApi
  */
 export interface UnrecoverableStateEvent {
   type: 'UNRECOVERABLE_STATE';
   url: string;
+  reason: string;
 }
 
 /**

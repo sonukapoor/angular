@@ -441,10 +441,7 @@ import {MockPushManager, MockPushSubscription, MockServiceWorkerContainer, MockS
           expect(event.type).toEqual('UNRECOVERABLE_STATE');
           done();
         });
-        mock.sendMessage({
-          type: 'UNRECOVERABLE_STATE',
-          url: 'https://example.com'
-        });
+        mock.sendMessage({type: 'UNRECOVERABLE_STATE', url: 'https://example.com'});
       });
       it('processes update activation notifications when sent', done => {
         update.activated.subscribe(event => {
@@ -521,12 +518,6 @@ import {MockPushManager, MockPushSubscription, MockServiceWorkerContainer, MockS
         it('gives an error when activating updates', done => {
           update = new SwUpdate(comm);
           update.activateUpdate().catch(err => {
-            done();
-          });
-        });
-        it('gives an error when removing updates', done => {
-          update = new SwUpdate(comm);
-          update.unrecoveredState().catch(err => {
             done();
           });
         });

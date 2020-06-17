@@ -33,7 +33,6 @@ export declare class SwUpdate {
     constructor(sw: ɵangular_packages_service_worker_service_worker_a);
     activateUpdate(): Promise<void>;
     checkForUpdate(): Promise<void>;
-    unrecoveredState(): Promise<void>;
 }
 
 export declare interface UpdateActivatedEvent {
