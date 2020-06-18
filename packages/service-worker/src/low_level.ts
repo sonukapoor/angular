@@ -44,7 +44,6 @@ export interface UpdateActivatedEvent {
  */
 export interface UnrecoverableStateEvent {
   type: 'UNRECOVERABLE_STATE';
-  url: string;
   reason: string;
 }
 

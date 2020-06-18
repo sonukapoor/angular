@@ -17,3 +17,7 @@ export function errorToString(error: any): string {
     return `${error}`;
   }
 }
+
+export class UnrecoverableStateError extends Error {
+  readonly isUnrecoverableState: boolean = true;
+}

@@ -9,7 +9,7 @@
 import {Adapter, Context} from './adapter';
 import {CacheState, NormalizedUrl, UpdateCacheStatus, UpdateSource, UrlMetadata} from './api';
 import {Database, Table} from './database';
-import {errorToString, SwCriticalError} from './error';
+import {errorToString, SwCriticalError, UnrecoverableStateError} from './error';
 import {IdleScheduler} from './idle';
 import {AssetGroupConfig} from './manifest';
 import {sha1Binary} from './sha1';
@@ -153,13 +153,7 @@ export abstract class AssetGroup {
       // If this is successful, the response needs to be cloned as it might be used to respond to
       // multiple fetch operations at the same time.
       if (!res.ok) {
-        const clients = await this.scope.clients.matchAll();
-        clients.forEach(client => {
-          client.postMessage(
-              {type: 'UNRECOVERABLE_STATE', url: req.url, reason: 'Resource not found.'});
-        });
-
-        return null;
+        throw new UnrecoverableStateError(`Failed to retrieve asset from server`);
       }
 
       return res.clone();

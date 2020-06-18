@@ -437,11 +437,11 @@ import {MockPushManager, MockPushSubscription, MockServiceWorkerContainer, MockS
       });
       it('processes resource removed notifications when sent', done => {
         update.unrecovered.subscribe(event => {
-          expect(event.url).toEqual('https://example.com');
+          expect(event.reason).toEqual('Invalid Resource');
           expect(event.type).toEqual('UNRECOVERABLE_STATE');
           done();
         });
-        mock.sendMessage({type: 'UNRECOVERABLE_STATE', url: 'https://example.com'});
+        mock.sendMessage({type: 'UNRECOVERABLE_STATE', reason: 'Invalid Resource'});
       });
       it('processes update activation notifications when sent', done => {
         update.activated.subscribe(event => {

@@ -436,6 +436,9 @@ export class Driver implements Debuggable, UpdateSource {
       // network.
       res = await appVersion.handleFetch(event.request, event);
     } catch (err) {
+      if (err.isUnrecoverableState) {
+        await this.notifyClientsAboutUnrecoverableState(appVersion);
+      }
       if (err.isCritical) {
         // Something went wrong with the activation of this version.
         await this.versionFailed(appVersion, err);
@@ -1003,6 +1006,25 @@ export class Driver implements Debuggable, UpdateSource {
       hash,
       appData: manifest.appData as Object,
     };
+  }
+
+  async notifyClientsAboutUnrecoverableState(appVersion: AppVersion): Promise<void> {
+    const broken =
+        Array.from(this.versions.entries()).find(([hash, version]) => version === appVersion);
+    if (broken === undefined) {
+      // This version is no longer in use anyway, so nobody cares.
+      return;
+    }
+
+    const brokenHash = broken[0];
+    const affectedClients = Array.from(this.clientVersionMap.entries())
+                                .filter(([clientId, hash]) => hash === brokenHash)
+                                .map(([clientId]) => clientId);
+
+    affectedClients.forEach(async clientId => {
+      const client = await this.scope.clients.get(clientId);
+      client.postMessage({type: 'UNRECOVERABLE_STATE', reason: 'Resource not found.'});
+    });
   }
 
   async notifyClientsAboutUpdate(next: AppVersion): Promise<void> {
