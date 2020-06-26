@@ -57,6 +57,7 @@
     "docs": "yarn docs-only",
     "docs-only": "dgeni ./tools/transforms/angular.io-package",
     "docs-watch": "node tools/transforms/authors-package/watchr.js",
+    "docs-debug": "node --inspect-brk tools/transforms/authors-package/watcher-debugger.js",
     "docs-lint": "eslint --ignore-path=\"tools/transforms/.eslintignore\" tools/transforms",
     "docs-test": "node tools/transforms/test.js",
     "redirects-test": "node tests/deployment/unit/test",

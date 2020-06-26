@@ -29,7 +29,7 @@ module.exports = new Package('angular.io', [gitPackage, apiPackage, contentPacka
   })
 
   .config(function(checkAnchorLinksProcessor, linkInlineTagDef, renderExamples) {
-
+debugger;
     // Fail the processing if there is an invalid link
     linkInlineTagDef.failOnBadLink = true;
 
