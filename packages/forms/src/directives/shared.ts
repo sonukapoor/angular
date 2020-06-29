@@ -127,7 +127,8 @@ export function setUpFormContainer(
 
 function _noControlError(dir: NgControl) {
   if (ngDevMode) {
-    return _throwError(dir, 'There is no FormControl instance attached to form control element with');
+    return _throwError(
+        dir, 'There is no FormControl instance attached to form control element with');
   }
 }
 

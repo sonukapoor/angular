@@ -219,7 +219,8 @@ export class FormControlName extends NgControl implements OnChanges, OnDestroy {
           this._parent instanceof AbstractFormGroupDirective) {
         ReactiveErrors.ngModelGroupException();
       } else if (
-          !(this._parent instanceof FormGroupName) && !(this._parent instanceof FormGroupDirective) &&
+          !(this._parent instanceof FormGroupName) &&
+          !(this._parent instanceof FormGroupDirective) &&
           !(this._parent instanceof FormArrayName)) {
         ReactiveErrors.controlParentException();
       }
