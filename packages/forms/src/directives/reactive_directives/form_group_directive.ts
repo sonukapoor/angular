@@ -291,7 +291,7 @@ export class FormGroupDirective extends ControlContainer implements Form, OnChan
   }
 
   private _checkFormPresent() {
-    if (!this.form) {
+    if (!this.form && ngDevMode) {
       ReactiveErrors.missingFormException();
     }
   }

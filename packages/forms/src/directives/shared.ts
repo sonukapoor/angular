@@ -33,8 +33,8 @@ export function controlPath(name: string|null, parent: ControlContainer): string
 }
 
 export function setUpControl(control: FormControl, dir: NgControl): void {
-  if (!control) _throwError(dir, 'Cannot find control with');
-  if (!dir.valueAccessor) _throwError(dir, 'No value accessor for form control with');
+  if (!control && ngDevMode) _throwError(dir, 'Cannot find control with');
+  if (!dir.valueAccessor && ngDevMode) _throwError(dir, 'No value accessor for form control with');
 
   control.validator = Validators.compose([control.validator!, dir.validator]);
   control.asyncValidator = Validators.composeAsync([control.asyncValidator!, dir.asyncValidator]);
@@ -120,13 +120,15 @@ function setUpModelChangePipeline(control: FormControl, dir: NgControl): void {
 
 export function setUpFormContainer(
     control: FormGroup|FormArray, dir: AbstractFormGroupDirective|FormArrayName) {
-  if (control == null) _throwError(dir, 'Cannot find control with');
+  if (control == null && ngDevMode) _throwError(dir, 'Cannot find control with');
   control.validator = Validators.compose([control.validator, dir.validator]);
   control.asyncValidator = Validators.composeAsync([control.asyncValidator, dir.asyncValidator]);
 }
 
 function _noControlError(dir: NgControl) {
-  return _throwError(dir, 'There is no FormControl instance attached to form control element with');
+  if (ngDevMode) {
+    return _throwError(dir, 'There is no FormControl instance attached to form control element with');
+  }
 }
 
 function _throwError(dir: AbstractControlDirective, message: string): void {
@@ -188,7 +190,7 @@ export function selectValueAccessor(
     dir: NgControl, valueAccessors: ControlValueAccessor[]): ControlValueAccessor|null {
   if (!valueAccessors) return null;
 
-  if (!Array.isArray(valueAccessors))
+  if (!Array.isArray(valueAccessors) && ngDevMode)
     _throwError(dir, 'Value accessor was not provided as an array for form control with');
 
   let defaultAccessor: ControlValueAccessor|undefined = undefined;
@@ -200,12 +202,12 @@ export function selectValueAccessor(
       defaultAccessor = v;
 
     } else if (isBuiltInAccessor(v)) {
-      if (builtinAccessor)
+      if (builtinAccessor && ngDevMode)
         _throwError(dir, 'More than one built-in value accessor matches form control with');
       builtinAccessor = v;
 
     } else {
-      if (customAccessor)
+      if (customAccessor && ngDevMode)
         _throwError(dir, 'More than one custom value accessor matches form control with');
       customAccessor = v;
     }
@@ -215,7 +217,9 @@ export function selectValueAccessor(
   if (builtinAccessor) return builtinAccessor;
   if (defaultAccessor) return defaultAccessor;
 
-  _throwError(dir, 'No valid value accessor for form control with');
+  if (ngDevMode) {
+    _throwError(dir, 'No valid value accessor for form control with');
+  }
   return null;
 }
 
@@ -232,7 +236,9 @@ export function _ngModelWarning(
 
   if (((warningConfig === null || warningConfig === 'once') && !type._ngModelWarningSentOnce) ||
       (warningConfig === 'always' && !instance._ngModelWarningSent)) {
-    ReactiveErrors.ngModelWarning(name);
+    if (ngDevMode) {
+      ReactiveErrors.ngModelWarning(name);
+    }
     type._ngModelWarningSentOnce = true;
     instance._ngModelWarningSent = true;
   }
