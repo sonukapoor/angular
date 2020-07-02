@@ -33,8 +33,10 @@ export function controlPath(name: string|null, parent: ControlContainer): string
 }
 
 export function setUpControl(control: FormControl, dir: NgControl): void {
-  if (!control && ngDevMode) _throwError(dir, 'Cannot find control with');
-  if (!dir.valueAccessor && ngDevMode) _throwError(dir, 'No value accessor for form control with');
+  if (!control && (typeof ngDevMode === 'undefined' || ngDevMode))
+    _throwError(dir, 'Cannot find control with');
+  if (!dir.valueAccessor && (typeof ngDevMode === 'undefined' || ngDevMode))
+    _throwError(dir, 'No value accessor for form control with');
 
   control.validator = Validators.compose([control.validator!, dir.validator]);
   control.asyncValidator = Validators.composeAsync([control.asyncValidator!, dir.asyncValidator]);
@@ -64,8 +66,10 @@ export function setUpControl(control: FormControl, dir: NgControl): void {
 }
 
 export function cleanUpControl(control: FormControl, dir: NgControl) {
-  dir.valueAccessor!.registerOnChange(() => _noControlError(dir));
-  dir.valueAccessor!.registerOnTouched(() => _noControlError(dir));
+  if (typeof ngDevMode === 'undefined' || ngDevMode) {
+    dir.valueAccessor!.registerOnChange(() => _noControlError(dir));
+    dir.valueAccessor!.registerOnTouched(() => _noControlError(dir));
+  }
 
   dir._rawValidators.forEach((validator: any) => {
     if (validator.registerOnValidatorChange) {
@@ -120,16 +124,14 @@ function setUpModelChangePipeline(control: FormControl, dir: NgControl): void {
 
 export function setUpFormContainer(
     control: FormGroup|FormArray, dir: AbstractFormGroupDirective|FormArrayName) {
-  if (control == null && ngDevMode) _throwError(dir, 'Cannot find control with');
+  if (control == null && (typeof ngDevMode === 'undefined' || ngDevMode))
+    _throwError(dir, 'Cannot find control with');
   control.validator = Validators.compose([control.validator, dir.validator]);
   control.asyncValidator = Validators.composeAsync([control.asyncValidator, dir.asyncValidator]);
 }
 
 function _noControlError(dir: NgControl) {
-  if (ngDevMode) {
-    return _throwError(
-        dir, 'There is no FormControl instance attached to form control element with');
-  }
+  return _throwError(dir, 'There is no FormControl instance attached to form control element with');
 }
 
 function _throwError(dir: AbstractControlDirective, message: string): void {
@@ -191,7 +193,7 @@ export function selectValueAccessor(
     dir: NgControl, valueAccessors: ControlValueAccessor[]): ControlValueAccessor|null {
   if (!valueAccessors) return null;
 
-  if (!Array.isArray(valueAccessors) && ngDevMode)
+  if (!Array.isArray(valueAccessors) && (typeof ngDevMode === 'undefined' || ngDevMode))
     _throwError(dir, 'Value accessor was not provided as an array for form control with');
 
   let defaultAccessor: ControlValueAccessor|undefined = undefined;
@@ -203,12 +205,12 @@ export function selectValueAccessor(
       defaultAccessor = v;
 
     } else if (isBuiltInAccessor(v)) {
-      if (builtinAccessor && ngDevMode)
+      if (builtinAccessor && (typeof ngDevMode === 'undefined' || ngDevMode))
         _throwError(dir, 'More than one built-in value accessor matches form control with');
       builtinAccessor = v;
 
     } else {
-      if (customAccessor && ngDevMode)
+      if (customAccessor && (typeof ngDevMode === 'undefined' || ngDevMode))
         _throwError(dir, 'More than one custom value accessor matches form control with');
       customAccessor = v;
     }
@@ -218,7 +220,7 @@ export function selectValueAccessor(
   if (builtinAccessor) return builtinAccessor;
   if (defaultAccessor) return defaultAccessor;
 
-  if (ngDevMode) {
+  if (typeof ngDevMode === 'undefined' || ngDevMode) {
     _throwError(dir, 'No valid value accessor for form control with');
   }
   return null;
@@ -237,7 +239,7 @@ export function _ngModelWarning(
 
   if (((warningConfig === null || warningConfig === 'once') && !type._ngModelWarningSentOnce) ||
       (warningConfig === 'always' && !instance._ngModelWarningSent)) {
-    if (ngDevMode) {
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
       ReactiveErrors.ngModelWarning(name);
     }
     type._ngModelWarningSentOnce = true;

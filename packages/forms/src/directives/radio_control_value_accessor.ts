@@ -10,13 +10,19 @@ import {Directive, ElementRef, forwardRef, Injectable, Injector, Input, OnDestro
 
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from './control_value_accessor';
 import {NgControl} from './ng_control';
-import {RadioControlValueAccessorErrors} from './radio_control_value_accessor_errors';
 
 export const RADIO_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => RadioControlValueAccessor),
   multi: true
 };
+
+function throwNameError() {
+  throw new Error(`
+      If you define both a name and a formControlName attribute on your radio button, their values
+      must match. Ex: <input type="radio" formControlName="food" name="food">
+    `);
+}
 
 /**
  * @description
@@ -214,8 +220,9 @@ export class RadioControlValueAccessor implements ControlValueAccessor, OnDestro
   }
 
   private _checkName(): void {
-    if (this.name && this.formControlName && this.name !== this.formControlName && ngDevMode) {
-      RadioControlValueAccessorErrors.throwNameError();
+    if (this.name && this.formControlName && this.name !== this.formControlName &&
+        (typeof ngDevMode === 'undefined' || ngDevMode)) {
+      throwNameError();
     }
     if (!this.name && this.formControlName) this.name = this.formControlName;
   }

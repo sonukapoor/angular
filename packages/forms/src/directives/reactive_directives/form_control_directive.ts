@@ -70,9 +70,10 @@ export class FormControlDirective extends NgControl implements OnChanges {
    * @description
    * Triggers a warning in dev mode that this input should not be used with reactive forms.
    */
+
   @Input('disabled')
   set isDisabled(isDisabled: boolean) {
-    if (ngDevMode) {
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
       ReactiveErrors.disabledAttrWarning();
     }
   }

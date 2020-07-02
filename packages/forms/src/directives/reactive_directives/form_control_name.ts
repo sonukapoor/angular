@@ -96,7 +96,7 @@ export class FormControlName extends NgControl implements OnChanges, OnDestroy {
    */
   @Input('disabled')
   set isDisabled(isDisabled: boolean) {
-    if (ngDevMode) {
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
       ReactiveErrors.disabledAttrWarning();
     }
   }
@@ -214,7 +214,7 @@ export class FormControlName extends NgControl implements OnChanges, OnDestroy {
   }
 
   private _checkParentType(): void {
-    if (ngDevMode) {
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
       if (!(this._parent instanceof FormGroupName) &&
           this._parent instanceof AbstractFormGroupDirective) {
         ReactiveErrors.ngModelGroupException();

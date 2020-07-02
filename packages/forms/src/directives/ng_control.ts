@@ -13,7 +13,7 @@ import {ControlValueAccessor} from './control_value_accessor';
 import {AsyncValidator, AsyncValidatorFn, Validator, ValidatorFn} from './validators';
 
 function unimplemented(): any {
-  if (ngDevMode) {
+  if (typeof ngDevMode === 'undefined' || ngDevMode) {
     throw new Error('unimplemented');
   }
 }

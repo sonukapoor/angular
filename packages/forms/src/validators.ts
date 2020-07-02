@@ -468,7 +468,7 @@ function isPresent(o: any): boolean {
 
 export function toObservable(r: any): Observable<any> {
   const obs = isPromise(r) ? from(r) : r;
-  if (!(isObservable(obs)) && ngDevMode) {
+  if (!(isObservable(obs)) && (typeof ngDevMode === 'undefined' || ngDevMode)) {
     throw new Error(`Expected validator to return Promise or Observable.`);
   }
   return obs;
