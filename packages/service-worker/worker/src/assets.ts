@@ -145,18 +145,27 @@ export abstract class AssetGroup {
           return cachedResponse;
         }
       }
-      // No already-cached response exists, so attempt a fetch/cache operation. The original request
-      // may specify things like credential inclusion, but for assets these are not honored in order
-      // to avoid issues with opaque responses. The SW requests the data itself.
-      const res = await this.fetchAndCacheOnce(this.adapter.newRequest(req.url));
 
-      // If this is successful, the response needs to be cloned as it might be used to respond to
-      // multiple fetch operations at the same time.
-      if (!res.ok) {
-        throw new UnrecoverableStateError(`Failed to retrieve asset from server`);
+      try {
+        // No already-cached response exists, so attempt a fetch/cache operation. The original request
+        // may specify things like credential inclusion, but for assets these are not honored in order
+        // to avoid issues with opaque responses. The SW requests the data itself.
+        const res = await this.fetchAndCacheOnce(this.adapter.newRequest(req.url));
+
+        // If this is successful, the response needs to be cloned as it might be used to respond to
+        // multiple fetch operations at the same time.
+        return res.clone();
+      } catch(err) {
+        const isCriticalError = err instanceof SwCriticalError;
+        const isInConfig = this.config.urls.indexOf(url) !== -1;
+        const isPrefetch = this.config.installMode === 'prefetch';
+
+        if (isCriticalError && isInConfig && isPrefetch) {
+          throw new UnrecoverableStateError(`Failed to retrieve asset from server: (AssetGroup): ${this.config.name}`);
+        } else {
+          throw err;
+        }
       }
-
-      return res.clone();
     } else {
       return null;
     }

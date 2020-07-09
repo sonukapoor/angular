@@ -20,4 +20,5 @@ export function errorToString(error: any): string {
 
 export class UnrecoverableStateError extends Error {
   readonly isUnrecoverableState: boolean = true;
+  reason: string = 'Resource not found';
 }
