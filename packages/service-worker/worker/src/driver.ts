@@ -437,7 +437,7 @@ export class Driver implements Debuggable, UpdateSource {
       res = await appVersion.handleFetch(event.request, event);
     } catch (err) {
       if (err.isUnrecoverableState) {
-        await this.notifyClientsAboutUnrecoverableState(appVersion, err.reason);
+        await this.notifyClientsAboutUnrecoverableState(appVersion, err.message);
       }
       if (err.isCritical) {
         // Something went wrong with the activation of this version.
@@ -1008,7 +1008,8 @@ export class Driver implements Debuggable, UpdateSource {
     };
   }
 
-  async notifyClientsAboutUnrecoverableState(appVersion: AppVersion, reason: string): Promise<void> {
+  async notifyClientsAboutUnrecoverableState(appVersion: AppVersion, reason: string):
+      Promise<void> {
     const broken =
         Array.from(this.versions.entries()).find(([hash, version]) => version === appVersion);
     if (broken === undefined) {

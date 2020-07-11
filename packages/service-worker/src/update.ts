@@ -32,21 +32,19 @@ export class SwUpdate {
   readonly activated: Observable<UpdateActivatedEvent>;
 
   /**
+   * Emits an `UnrecoverableStateEvent` event whenever the version of the app used by the service
+   * worker to serve this client is in a broken state that cannot be recovered from without a full
+   * page reload.
+   */
+  readonly unrecoverable: Observable<UnrecoverableStateEvent>;
+
+  /**
    * True if the Service Worker is enabled (supported by the browser and enabled via
    * `ServiceWorkerModule`).
    */
   get isEnabled(): boolean {
     return this.sw.isEnabled;
   }
-
-  /**
-   * An event emitted when the version of the app used by the service worker to serve this client is
-   * in a broken state that cannot be recovered from and a full page reload is required.
-   *
-   * For example, this can happen when a required resource cannot be found neither in the cache nor
-   * on the server.
-   */
-  readonly unrecoverable: Observable<UnrecoverableStateEvent>;
 
   constructor(private sw: NgswCommChannel) {
     if (!sw.isEnabled) {

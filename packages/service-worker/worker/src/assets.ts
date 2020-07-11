@@ -9,7 +9,7 @@
 import {Adapter, Context} from './adapter';
 import {CacheState, NormalizedUrl, UpdateCacheStatus, UpdateSource, UrlMetadata} from './api';
 import {Database, Table} from './database';
-import {errorToString, SwCriticalError, UnrecoverableStateError} from './error';
+import {errorToString, SwCriticalError, SwUnrecoverableStateError} from './error';
 import {IdleScheduler} from './idle';
 import {AssetGroupConfig} from './manifest';
 import {sha1Binary} from './sha1';
@@ -146,26 +146,14 @@ export abstract class AssetGroup {
         }
       }
 
-      try {
-        // No already-cached response exists, so attempt a fetch/cache operation. The original request
-        // may specify things like credential inclusion, but for assets these are not honored in order
-        // to avoid issues with opaque responses. The SW requests the data itself.
-        const res = await this.fetchAndCacheOnce(this.adapter.newRequest(req.url));
+      // No already-cached response exists, so attempt a fetch/cache operation. The original request
+      // may specify things like credential inclusion, but for assets these are not honored in order
+      // to avoid issues with opaque responses. The SW requests the data itself.
+      const res = await this.fetchAndCacheOnce(this.adapter.newRequest(req.url));
 
-        // If this is successful, the response needs to be cloned as it might be used to respond to
-        // multiple fetch operations at the same time.
-        return res.clone();
-      } catch(err) {
-        const isCriticalError = err instanceof SwCriticalError;
-        const isInConfig = this.config.urls.indexOf(url) !== -1;
-        const isPrefetch = this.config.installMode === 'prefetch';
-
-        if (isCriticalError && isInConfig && isPrefetch) {
-          throw new UnrecoverableStateError(`Failed to retrieve asset from server: (AssetGroup): ${this.config.name}`);
-        } else {
-          throw err;
-        }
-      }
+      // If this is successful, the response needs to be cloned as it might be used to respond to
+      // multiple fetch operations at the same time.
+      return res.clone();
     } else {
       return null;
     }
@@ -427,10 +415,15 @@ export abstract class AssetGroup {
 
         // If the response was unsuccessful, there's nothing more that can be done.
         if (!cacheBustedResult.ok) {
-          throw new SwCriticalError(
-              `Response not Ok (cacheBustedFetchFromNetwork): cache busted request for ${
-                  req.url} returned response ${cacheBustedResult.status} ${
-                  cacheBustedResult.statusText}`);
+          if (cacheBustedResult.status === 404) {
+            throw new SwUnrecoverableStateError(
+                `Failed to retrieve asset from server: (AssetGroup): ${this.config.name}`);
+          } else {
+            throw new SwCriticalError(
+                `Response not Ok (cacheBustedFetchFromNetwork): cache busted request for ${
+                    req.url} returned response ${cacheBustedResult.status} ${
+                    cacheBustedResult.statusText}`);
+          }
         }
 
         // Hash the contents.
