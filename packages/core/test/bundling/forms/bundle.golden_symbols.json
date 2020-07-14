@@ -1,0 +1,413 @@
+[
+  {
+    "name": "ALLOW_MULTIPLE_PLATFORMS"
+  },
+  {
+    "name": "ANNOTATIONS"
+  },
+  {
+    "name": "APP_BOOTSTRAP_LISTENER"
+  },
+  {
+    "name": "AnonymousSubject"
+  },
+  {
+    "name": "ApplicationInitStatus"
+  },
+  {
+    "name": "ApplicationRef"
+  },
+  {
+    "name": "CIRCULAR"
+  },
+  {
+    "name": "ConnectableObservable"
+  },
+  {
+    "name": "ConnectableSubscriber"
+  },
+  {
+    "name": "Console"
+  },
+  {
+    "name": "DELEGATE_CTOR"
+  },
+  {
+    "name": "DOCUMENT"
+  },
+  {
+    "name": "EMPTY"
+  },
+  {
+    "name": "EMPTY_ARRAY"
+  },
+  {
+    "name": "EMPTY_PAYLOAD"
+  },
+  {
+    "name": "EventEmitter"
+  },
+  {
+    "name": "IDENT"
+  },
+  {
+    "name": "INHERITED_CLASS"
+  },
+  {
+    "name": "INHERITED_CLASS_WITH_CTOR"
+  },
+  {
+    "name": "INHERITED_CLASS_WITH_DELEGATE_CTOR"
+  },
+  {
+    "name": "INJECTOR"
+  },
+  {
+    "name": "INJECTOR_IMPL"
+  },
+  {
+    "name": "INJECTOR_SCOPE"
+  },
+  {
+    "name": "Inject"
+  },
+  {
+    "name": "InjectFlags"
+  },
+  {
+    "name": "Injectable"
+  },
+  {
+    "name": "Injector"
+  },
+  {
+    "name": "InnerSubscriber"
+  },
+  {
+    "name": "MULTI_PROVIDER_FN"
+  },
+  {
+    "name": "MapOperator"
+  },
+  {
+    "name": "MapSubscriber"
+  },
+  {
+    "name": "MergeMapOperator"
+  },
+  {
+    "name": "MergeMapSubscriber"
+  },
+  {
+    "name": "NEW_LINE"
+  },
+  {
+    "name": "NG_INJECTABLE_DEF"
+  },
+  {
+    "name": "NG_PROV_DEF"
+  },
+  {
+    "name": "ObjectUnsubscribedError"
+  },
+  {
+    "name": "Observable"
+  },
+  {
+    "name": "Optional"
+  },
+  {
+    "name": "OuterSubscriber"
+  },
+  {
+    "name": "PARAMETERS"
+  },
+  {
+    "name": "PLATFORM_ID"
+  },
+  {
+    "name": "PLATFORM_INITIALIZER"
+  },
+  {
+    "name": "PlatformRef"
+  },
+  {
+    "name": "RefCountOperator"
+  },
+  {
+    "name": "RefCountSubscriber"
+  },
+  {
+    "name": "SWITCH_COMPILE_INJECTABLE"
+  },
+  {
+    "name": "SafeSubscriber"
+  },
+  {
+    "name": "Self"
+  },
+  {
+    "name": "SkipSelf"
+  },
+  {
+    "name": "Subject"
+  },
+  {
+    "name": "SubjectSubscriber"
+  },
+  {
+    "name": "SubjectSubscription"
+  },
+  {
+    "name": "Subscriber"
+  },
+  {
+    "name": "Subscription"
+  },
+  {
+    "name": "THROW_IF_NOT_FOUND"
+  },
+  {
+    "name": "Testability"
+  },
+  {
+    "name": "TestabilityRegistry"
+  },
+  {
+    "name": "Type"
+  },
+  {
+    "name": "USE_VALUE"
+  },
+  {
+    "name": "USE_VALUE"
+  },
+  {
+    "name": "UnsubscriptionError"
+  },
+  {
+    "name": "_DOM"
+  },
+  {
+    "name": "__extends"
+  },
+  {
+    "name": "__forward_ref__"
+  },
+  {
+    "name": "__global"
+  },
+  {
+    "name": "__globalThis"
+  },
+  {
+    "name": "__self"
+  },
+  {
+    "name": "__window"
+  },
+  {
+    "name": "_currentInjector"
+  },
+  {
+    "name": "_enable_super_gross_mode_that_will_cause_bad_things"
+  },
+  {
+    "name": "_global"
+  },
+  {
+    "name": "_testabilityGetter"
+  },
+  {
+    "name": "baseElement"
+  },
+  {
+    "name": "checkStable"
+  },
+  {
+    "name": "config"
+  },
+  {
+    "name": "connectableObservableDescriptor"
+  },
+  {
+    "name": "convertInjectableProviderToFactory"
+  },
+  {
+    "name": "convertTsickleDecoratorIntoMetadata"
+  },
+  {
+    "name": "createPlatformFactory"
+  },
+  {
+    "name": "defaultErrorLogger"
+  },
+  {
+    "name": "empty"
+  },
+  {
+    "name": "extendStatics"
+  },
+  {
+    "name": "flattenUnsubscriptionErrors"
+  },
+  {
+    "name": "formatError"
+  },
+  {
+    "name": "forwardRef"
+  },
+  {
+    "name": "fromArray"
+  },
+  {
+    "name": "getClosureSafeProperty"
+  },
+  {
+    "name": "getDebugContext"
+  },
+  {
+    "name": "getInjectableDef"
+  },
+  {
+    "name": "getOriginalError"
+  },
+  {
+    "name": "getOwnDefinition"
+  },
+  {
+    "name": "getParentCtor"
+  },
+  {
+    "name": "getPlatform"
+  },
+  {
+    "name": "getPromiseCtor"
+  },
+  {
+    "name": "getSymbolIterator"
+  },
+  {
+    "name": "hostReportError"
+  },
+  {
+    "name": "identity"
+  },
+  {
+    "name": "injectArgs"
+  },
+  {
+    "name": "isArray"
+  },
+  {
+    "name": "isFunction"
+  },
+  {
+    "name": "isObject"
+  },
+  {
+    "name": "isPromise"
+  },
+  {
+    "name": "isScheduler"
+  },
+  {
+    "name": "isType"
+  },
+  {
+    "name": "iterator"
+  },
+  {
+    "name": "makeDecorator"
+  },
+  {
+    "name": "makeMetadataCtor"
+  },
+  {
+    "name": "makeParamDecorator"
+  },
+  {
+    "name": "mergeAll"
+  },
+  {
+    "name": "multiProviderMixError"
+  },
+  {
+    "name": "newArray"
+  },
+  {
+    "name": "noSideEffects"
+  },
+  {
+    "name": "noop"
+  },
+  {
+    "name": "noop"
+  },
+  {
+    "name": "observable"
+  },
+  {
+    "name": "onEnter"
+  },
+  {
+    "name": "onLeave"
+  },
+  {
+    "name": "optionsReducer"
+  },
+  {
+    "name": "pipeFromArray"
+  },
+  {
+    "name": "platformCore"
+  },
+  {
+    "name": "promise"
+  },
+  {
+    "name": "refCount"
+  },
+  {
+    "name": "remove"
+  },
+  {
+    "name": "resolveForwardRef"
+  },
+  {
+    "name": "resolveProvider"
+  },
+  {
+    "name": "rxSubscriber"
+  },
+  {
+    "name": "scheduleMicroTask"
+  },
+  {
+    "name": "setCurrentInjector"
+  },
+  {
+    "name": "shareSubjectFactory"
+  },
+  {
+    "name": "staticError"
+  },
+  {
+    "name": "stringify"
+  },
+  {
+    "name": "subscribeTo"
+  },
+  {
+    "name": "subscribeToArray"
+  },
+  {
+    "name": "updateMicroTaskStatus"
+  },
+  {
+    "name": "ɵɵdefineInjectable"
+  },
+  {
+    "name": "ɵɵinject"
+  }
+]
