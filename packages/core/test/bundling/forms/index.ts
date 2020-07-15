@@ -102,21 +102,20 @@ class ReactiveFormsComponent {
 @Component({
   selector: 'app-root',
   template: `
-    <!-- Template forms -->
     <app-template-forms></app-template-forms>
-
-    <!-- Reactive Forms -->
     <app-reactive-forms></app-reactive-forms>
   `
 })
-class RootComponent {}
+class RootComponent {
+}
 
 @NgModule({
-  declarations: [TemplateFormsComponent, ReactiveFormsComponent],
+  declarations: [RootComponent, TemplateFormsComponent, ReactiveFormsComponent],
   imports: [FormsModule, ReactiveFormsModule],
   bootstrap: [RootComponent]
 })
-class FormsExampleModule {}
+class FormsExampleModule {
+}
 
 platformBrowser().bootstrapModule(FormsExampleModule);
 
