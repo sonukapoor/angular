@@ -118,6 +118,3 @@ class FormsExampleModule {
 }
 
 platformBrowser().bootstrapModule(FormsExampleModule);
-
-// renderComponent(TemplateFormsComponent);
-// renderComponent(ReactiveFormsComponent);
