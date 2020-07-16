@@ -9,6 +9,15 @@
     "name": "APP_INITIALIZER"
   },
   {
+    "name": "AbstractControl"
+  },
+  {
+    "name": "AbstractControlDirective"
+  },
+  {
+    "name": "AbstractControlStatus"
+  },
+  {
     "name": "AbstractFormGroupDirective"
   },
   {
@@ -22,6 +31,12 @@
   },
   {
     "name": "BUILTIN_ACCESSORS"
+  },
+  {
+    "name": "BrowserDomAdapter"
+  },
+  {
+    "name": "BrowserGetTestability"
   },
   {
     "name": "CHECKBOX_VALUE_ACCESSOR"
@@ -42,7 +57,19 @@
     "name": "CheckboxControlValueAccessor"
   },
   {
+    "name": "ComponentFactory"
+  },
+  {
+    "name": "ComponentFactory"
+  },
+  {
     "name": "ComponentFactoryResolver"
+  },
+  {
+    "name": "ComponentFactoryResolver"
+  },
+  {
+    "name": "ComponentRef"
   },
   {
     "name": "ConnectableObservable"
@@ -52,6 +79,9 @@
   },
   {
     "name": "Console"
+  },
+  {
+    "name": "ControlContainer"
   },
   {
     "name": "DEFAULT_VALUE_ACCESSOR"
@@ -87,13 +117,22 @@
     "name": "ElementRef"
   },
   {
+    "name": "ErrorHandler"
+  },
+  {
     "name": "EventEmitter"
+  },
+  {
+    "name": "FormArray"
   },
   {
     "name": "FormArrayName"
   },
   {
     "name": "FormBuilder"
+  },
+  {
+    "name": "FormControl"
   },
   {
     "name": "FormControlName"
@@ -106,6 +145,9 @@
   },
   {
     "name": "FormErrorExamples_ngModelGroup"
+  },
+  {
+    "name": "FormGroup"
   },
   {
     "name": "FormGroupDirective"
@@ -133,6 +175,9 @@
   },
   {
     "name": "InjectFlags"
+  },
+  {
+    "name": "InjectionToken"
   },
   {
     "name": "Injector"
@@ -231,6 +276,9 @@
     "name": "NUMBER_VALUE_ACCESSOR"
   },
   {
+    "name": "NgControl"
+  },
+  {
     "name": "NgControlStatus"
   },
   {
@@ -244,6 +292,33 @@
   },
   {
     "name": "NgModelGroup"
+  },
+  {
+    "name": "NgModuleFactory"
+  },
+  {
+    "name": "NgModuleRef"
+  },
+  {
+    "name": "NgModuleRef"
+  },
+  {
+    "name": "NgOnChangesFeatureImpl"
+  },
+  {
+    "name": "NgZone"
+  },
+  {
+    "name": "NodeInjector"
+  },
+  {
+    "name": "NodeInjectorFactory"
+  },
+  {
+    "name": "NoopNgZone"
+  },
+  {
+    "name": "NullInjector"
   },
   {
     "name": "NumberValueAccessor"
@@ -270,6 +345,9 @@
     "name": "PlatformRef"
   },
   {
+    "name": "R3Injector"
+  },
+  {
     "name": "RADIO_VALUE_ACCESSOR"
   },
   {
@@ -286,6 +364,9 @@
   },
   {
     "name": "RangeValueAccessor"
+  },
+  {
+    "name": "ReactiveErrors"
   },
   {
     "name": "ReactiveFormsComponent"
@@ -306,10 +387,16 @@
     "name": "Renderer2"
   },
   {
+    "name": "RendererFactory2"
+  },
+  {
     "name": "RequiredValidator"
   },
   {
     "name": "RootComponent"
+  },
+  {
+    "name": "RootViewRef"
   },
   {
     "name": "SELECT_MULTIPLE_VALUE_ACCESSOR"
@@ -339,6 +426,9 @@
     "name": "Self"
   },
   {
+    "name": "SimpleChange"
+  },
+  {
     "name": "SkipSelf"
   },
   {
@@ -360,6 +450,9 @@
     "name": "THROW_IF_NOT_FOUND"
   },
   {
+    "name": "TemplateDrivenErrors"
+  },
+  {
     "name": "TemplateFormsComponent"
   },
   {
@@ -378,10 +471,22 @@
     "name": "VERSION"
   },
   {
+    "name": "Validators"
+  },
+  {
+    "name": "Version"
+  },
+  {
     "name": "ViewEncapsulation"
   },
   {
     "name": "_DOM"
+  },
+  {
+    "name": "_NoopGetTestability"
+  },
+  {
+    "name": "_NullComponentFactoryResolver"
   },
   {
     "name": "__extends"
@@ -1090,6 +1195,9 @@
   },
   {
     "name": "registerPostOrderHooks"
+  },
+  {
+    "name": "rememberChangeHistoryAndInvokeOnChangesHook"
   },
   {
     "name": "remove"
