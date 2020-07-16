@@ -33,10 +33,10 @@ export function controlPath(name: string|null, parent: ControlContainer): string
 }
 
 export function setUpControl(control: FormControl, dir: NgControl): void {
-  if (!control && (typeof ngDevMode === 'undefined' || ngDevMode))
-    _throwError(dir, 'Cannot find control with');
-  if (!dir.valueAccessor && (typeof ngDevMode === 'undefined' || ngDevMode))
-    _throwError(dir, 'No value accessor for form control with');
+  if (typeof ngDevMode === 'undefined' || ngDevMode) {
+    if (!control) _throwError(dir, 'Cannot find control with');
+    if (!dir.valueAccessor) _throwError(dir, 'No value accessor for form control with');
+  }
 
   control.validator = Validators.compose([control.validator!, dir.validator]);
   control.asyncValidator = Validators.composeAsync([control.asyncValidator!, dir.asyncValidator]);
@@ -66,10 +66,14 @@ export function setUpControl(control: FormControl, dir: NgControl): void {
 }
 
 export function cleanUpControl(control: FormControl, dir: NgControl) {
-  if (typeof ngDevMode === 'undefined' || ngDevMode) {
-    dir.valueAccessor!.registerOnChange(() => _noControlError(dir));
-    dir.valueAccessor!.registerOnTouched(() => _noControlError(dir));
-  }
+  const noop = () => {
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      _noControlError(dir);
+    }
+  };
+
+  dir.valueAccessor!.registerOnChange(noop);
+  dir.valueAccessor!.registerOnTouched(noop);
 
   dir._rawValidators.forEach((validator: any) => {
     if (validator.registerOnValidatorChange) {
