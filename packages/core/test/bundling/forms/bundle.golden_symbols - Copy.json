@@ -138,15 +138,6 @@
     "name": "FormControlName"
   },
   {
-    "name": "FormErrorExamples_formControlName"
-  },
-  {
-    "name": "FormErrorExamples_formGroupName"
-  },
-  {
-    "name": "FormErrorExamples_ngModelGroup"
-  },
-  {
     "name": "FormGroup"
   },
   {
@@ -366,9 +357,6 @@
     "name": "RangeValueAccessor"
   },
   {
-    "name": "ReactiveErrors"
-  },
-  {
     "name": "ReactiveFormsComponent"
   },
   {
@@ -450,9 +438,6 @@
     "name": "THROW_IF_NOT_FOUND"
   },
   {
-    "name": "TemplateDrivenErrors"
-  },
-  {
     "name": "TemplateFormsComponent"
   },
   {
@@ -522,16 +507,10 @@
     "name": "_mergeErrors"
   },
   {
-    "name": "_noControlError"
-  },
-  {
     "name": "_renderCompCount"
   },
   {
     "name": "_testabilityGetter"
-  },
-  {
-    "name": "_throwError"
   },
   {
     "name": "addComponentLogic"
@@ -1354,9 +1333,6 @@
   },
   {
     "name": "toTStylingRange"
-  },
-  {
-    "name": "unimplemented"
   },
   {
     "name": "unwrapRNode"
