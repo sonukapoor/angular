@@ -417,7 +417,7 @@ export abstract class AssetGroup {
         if (!cacheBustedResult.ok) {
           if (cacheBustedResult.status === 404) {
             throw new SwUnrecoverableStateError(
-                `Failed to retrieve asset from server: (AssetGroup): ${this.config.name}`);
+                `Failed to retrieve hashed resource from the server. (AssetGroup: ${this.config.name} | URL: ${url})`);
           } else {
             throw new SwCriticalError(
                 `Response not Ok (cacheBustedFetchFromNetwork): cache busted request for ${
