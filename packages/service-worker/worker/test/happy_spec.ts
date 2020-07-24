@@ -1825,7 +1825,11 @@ describe('Driver', () => {
 
       const mockClient = scope.clients.getMock('default')!;
       expect(mockClient.messages).toEqual([
-        {type: 'UNRECOVERABLE_STATE', url: '/foo.hash.js'},
+        {
+          type: 'UNRECOVERABLE_STATE',
+          reason:
+              'Failed to retrieve hashed resource from the server. (AssetGroup: assets | URL: /foo.hash.js)'
+        },
       ]);
     });
 

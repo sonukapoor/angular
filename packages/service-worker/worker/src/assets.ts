@@ -394,8 +394,8 @@ export abstract class AssetGroup {
       // reasons: either the non-cache-busted request failed (hopefully transiently) or if the
       // hash of the content retrieved does not match the canonical hash from the manifest. It's
       // only valid to access the content of the first response if the request was successful.
-      let makeCacheBustedRequest: boolean = networkResult.ok;
-      if (makeCacheBustedRequest) {
+      let makeCacheBustedRequest: boolean = !networkResult.ok;
+      if (networkResult.ok) {
         // The request was successful. A cache-busted request is only necessary if the hashes
         // don't match. Compare them, making sure to clone the response so it can be used later
         // if it proves to be valid.
@@ -417,7 +417,8 @@ export abstract class AssetGroup {
         if (!cacheBustedResult.ok) {
           if (cacheBustedResult.status === 404) {
             throw new SwUnrecoverableStateError(
-                `Failed to retrieve hashed resource from the server. (AssetGroup: ${this.config.name} | URL: ${url})`);
+                `Failed to retrieve hashed resource from the server. (AssetGroup: ${
+                    this.config.name} | URL: ${url})`);
           } else {
             throw new SwCriticalError(
                 `Response not Ok (cacheBustedFetchFromNetwork): cache busted request for ${
