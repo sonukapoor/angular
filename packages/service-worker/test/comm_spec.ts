@@ -8,7 +8,7 @@
 
 import {PLATFORM_ID} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
-import {NgswCommChannel} from '@angular/service-worker/src/low_level';
+import {NgswCommChannel, SWEvents} from '@angular/service-worker/src/low_level';
 import {ngswCommChannelFactory, SwRegistrationOptions} from '@angular/service-worker/src/module';
 import {SwPush} from '@angular/service-worker/src/push';
 import {SwUpdate} from '@angular/service-worker/src/update';
@@ -422,11 +422,11 @@ import {MockPushManager, MockPushSubscription, MockServiceWorkerContainer, MockS
         update.available.subscribe(event => {
           expect(event.current).toEqual({hash: 'A'});
           expect(event.available).toEqual({hash: 'B'});
-          expect(event.type).toEqual('UPDATE_AVAILABLE');
+          expect(event.type).toEqual(SWEvents.UPDATE_AVAILABLE);
           done();
         });
         mock.sendMessage({
-          type: 'UPDATE_AVAILABLE',
+          type: SWEvents.UPDATE_AVAILABLE,
           current: {
             hash: 'A',
           },
@@ -438,20 +438,20 @@ import {MockPushManager, MockPushSubscription, MockServiceWorkerContainer, MockS
       it('processes resource removed notifications when sent', done => {
         update.unrecoverable.subscribe(event => {
           expect(event.reason).toEqual('Invalid Resource');
-          expect(event.type).toEqual('UNRECOVERABLE_STATE');
+          expect(event.type).toEqual(SWEvents.UNRECOVERABLE_STATE);
           done();
         });
-        mock.sendMessage({type: 'UNRECOVERABLE_STATE', reason: 'Invalid Resource'});
+        mock.sendMessage({type: SWEvents.UNRECOVERABLE_STATE, reason: 'Invalid Resource'});
       });
       it('processes update activation notifications when sent', done => {
         update.activated.subscribe(event => {
           expect(event.previous).toEqual({hash: 'A'});
           expect(event.current).toEqual({hash: 'B'});
-          expect(event.type).toEqual('UPDATE_ACTIVATED');
+          expect(event.type).toEqual(SWEvents.UPDATE_ACTIVATED);
           done();
         });
         mock.sendMessage({
-          type: 'UPDATE_ACTIVATED',
+          type: SWEvents.UPDATE_ACTIVATED,
           previous: {
             hash: 'A',
           },

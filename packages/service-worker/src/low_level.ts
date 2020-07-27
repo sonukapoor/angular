@@ -11,13 +11,19 @@ import {filter, map, publish, switchMap, take, tap} from 'rxjs/operators';
 
 export const ERR_SW_NOT_SUPPORTED = 'Service workers are disabled or not supported by this browser';
 
+export const enum SWEvents {
+  UPDATE_AVAILABLE = 'UPDATE_AVAILABLE',
+  UPDATE_ACTIVATED = 'UPDATE_ACTIVATED',
+  UNRECOVERABLE_STATE = 'UNRECOVERABLE_STATE'
+}
+
 /**
  * An event emitted when a new version of the app is available.
  *
  * @publicApi
  */
 export interface UpdateAvailableEvent {
-  type: 'UPDATE_AVAILABLE';
+  type: SWEvents.UPDATE_AVAILABLE;
   current: {hash: string, appData?: Object};
   available: {hash: string, appData?: Object};
 }
@@ -28,7 +34,7 @@ export interface UpdateAvailableEvent {
  * @publicApi
  */
 export interface UpdateActivatedEvent {
-  type: 'UPDATE_ACTIVATED';
+  type: SWEvents.UPDATE_ACTIVATED;
   previous?: {hash: string, appData?: Object};
   current: {hash: string, appData?: Object};
 }
@@ -45,7 +51,7 @@ export interface UpdateActivatedEvent {
  * @publicApi
  */
 export interface UnrecoverableStateEvent {
-  type: 'UNRECOVERABLE_STATE';
+  type: SWEvents.UNRECOVERABLE_STATE;
   reason: string;
 }
 

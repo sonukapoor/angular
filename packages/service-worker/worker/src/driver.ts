@@ -15,6 +15,7 @@ import {errorToString} from './error';
 import {IdleScheduler} from './idle';
 import {hashManifest, Manifest, ManifestHash} from './manifest';
 import {isMsgActivateUpdate, isMsgCheckForUpdates, MsgAny} from './msg';
+import { SWEvents } from '@angular/service-worker/src/low_level';
 
 type ClientId = string;
 
@@ -393,7 +394,7 @@ export class Driver implements Debuggable, UpdateSource {
     // Notify the client about this activation.
     const current = this.versions.get(this.latestHash!)!;
     const notice = {
-      type: 'UPDATE_ACTIVATED',
+      type: SWEvents.UPDATE_ACTIVATED,
       previous,
       current: this.mergeHashWithAppData(current.manifest, this.latestHash!),
     };
@@ -1024,7 +1025,7 @@ export class Driver implements Debuggable, UpdateSource {
 
     affectedClients.forEach(async clientId => {
       const client = await this.scope.clients.get(clientId);
-      client.postMessage({type: 'UNRECOVERABLE_STATE', reason});
+      client.postMessage({type: SWEvents.UNRECOVERABLE_STATE, reason});
     });
   }
 
@@ -1052,7 +1053,7 @@ export class Driver implements Debuggable, UpdateSource {
 
       // Send a notice.
       const notice = {
-        type: 'UPDATE_AVAILABLE',
+        type: SWEvents.UPDATE_AVAILABLE,
         current: this.mergeHashWithAppData(current.manifest, version),
         available: this.mergeHashWithAppData(next.manifest, this.latestHash!),
       };

@@ -9,7 +9,7 @@
 import {Injectable} from '@angular/core';
 import {NEVER, Observable} from 'rxjs';
 
-import {ERR_SW_NOT_SUPPORTED, NgswCommChannel, UnrecoverableStateEvent, UpdateActivatedEvent, UpdateAvailableEvent} from './low_level';
+import {ERR_SW_NOT_SUPPORTED, NgswCommChannel, UnrecoverableStateEvent, UpdateActivatedEvent, UpdateAvailableEvent, SWEvents} from './low_level';
 
 
 
@@ -53,9 +53,9 @@ export class SwUpdate {
       this.unrecoverable = NEVER;
       return;
     }
-    this.available = this.sw.eventsOfType<UpdateAvailableEvent>('UPDATE_AVAILABLE');
-    this.activated = this.sw.eventsOfType<UpdateActivatedEvent>('UPDATE_ACTIVATED');
-    this.unrecoverable = this.sw.eventsOfType<UnrecoverableStateEvent>('UNRECOVERABLE_STATE');
+    this.available = this.sw.eventsOfType<UpdateAvailableEvent>(SWEvents.UPDATE_AVAILABLE);
+    this.activated = this.sw.eventsOfType<UpdateActivatedEvent>(SWEvents.UPDATE_ACTIVATED);
+    this.unrecoverable = this.sw.eventsOfType<UnrecoverableStateEvent>(SWEvents.UNRECOVERABLE_STATE);
   }
 
   checkForUpdate(): Promise<void> {

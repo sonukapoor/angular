@@ -15,6 +15,7 @@ import {clearAllCaches, MockCache} from '../testing/cache';
 import {MockRequest, MockResponse} from '../testing/fetch';
 import {MockFileSystem, MockFileSystemBuilder, MockServerState, MockServerStateBuilder, tmpHashTableForFs} from '../testing/mock';
 import {SwTestHarness, SwTestHarnessBuilder} from '../testing/scope';
+import { SWEvents } from '@angular/service-worker/src/low_level';
 
 (function() {
 // Skip environments that don't support the minimum APIs needed to run the SW tests.
@@ -472,7 +473,7 @@ describe('Driver', () => {
     serverUpdate.assertNoOtherRequests();
 
     expect(client.messages).toEqual([{
-      type: 'UPDATE_AVAILABLE',
+      type: SWEvents.UPDATE_AVAILABLE,
       current: {hash: manifestHash, appData: {version: 'original'}},
       available: {hash: manifestUpdateHash, appData: {version: 'update'}},
     }]);
@@ -517,12 +518,12 @@ describe('Driver', () => {
 
     expect(client.messages).toEqual([
       {
-        type: 'UPDATE_AVAILABLE',
+        type: SWEvents.UPDATE_AVAILABLE,
         current: {hash: manifestHash, appData: {version: 'original'}},
         available: {hash: manifestUpdateHash, appData: {version: 'update'}},
       },
       {
-        type: 'UPDATE_ACTIVATED',
+        type: SWEvents.UPDATE_ACTIVATED,
         previous: {hash: manifestHash, appData: {version: 'original'}},
         current: {hash: manifestUpdateHash, appData: {version: 'update'}},
       }
@@ -631,12 +632,12 @@ describe('Driver', () => {
 
     expect(client.messages).toEqual([
       {
-        type: 'UPDATE_AVAILABLE',
+        type: SWEvents.UPDATE_AVAILABLE,
         current: {hash: manifestHash, appData: {version: 'original'}},
         available: {hash: manifestUpdateHash, appData: {version: 'update'}},
       },
       {
-        type: 'UPDATE_ACTIVATED',
+        type: SWEvents.UPDATE_ACTIVATED,
         previous: {hash: manifestHash, appData: {version: 'original'}},
         current: {hash: manifestUpdateHash, appData: {version: 'update'}},
       }
@@ -1826,7 +1827,7 @@ describe('Driver', () => {
       const mockClient = scope.clients.getMock('default')!;
       expect(mockClient.messages).toEqual([
         {
-          type: 'UNRECOVERABLE_STATE',
+          type: SWEvents.UNRECOVERABLE_STATE,
           reason:
               'Failed to retrieve hashed resource from the server. (AssetGroup: assets | URL: /foo.hash.js)'
         },
