@@ -979,6 +979,14 @@ describe('FormControl', () => {
       expect(c.errors).toEqual(null);
       expect(g.errors).toEqual(null);
     });
+
+    xit('should set errors of form control', () => {
+      const c = new FormControl('someValue');
+      const g = new FormGroup({'one': c}, Validators.required);
+      const c1 = g.controls.one;
+      c1.setErrors({incorrect: true})
+      expect(c1.errors).toEqual({incorrect: true});
+    })
   });
 
   describe('disable() & enable()', () => {

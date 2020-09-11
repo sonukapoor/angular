@@ -9,7 +9,7 @@
 import {ɵgetDOM as getDOM} from '@angular/common';
 import {Component, Directive, forwardRef, Input, Type} from '@angular/core';
 import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {AbstractControl, AsyncValidator, AsyncValidatorFn, COMPOSITION_BUFFER_MODE, FormArray, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormsModule, NG_ASYNC_VALIDATORS, NG_VALIDATORS, ReactiveFormsModule, Validators} from '@angular/forms';
+import {AbstractControl, AsyncValidator, AsyncValidatorFn, COMPOSITION_BUFFER_MODE, FormArray, FormControl, FormControlDirective, FormControlName, FormGroup, FormGroupDirective, FormsModule, NG_ASYNC_VALIDATORS, NG_VALIDATORS, ReactiveFormsModule, Validators, FormBuilder} from '@angular/forms';
 import {By} from '@angular/platform-browser/src/dom/debug/by';
 import {dispatchEvent, sortedClassList} from '@angular/platform-browser/testing/src/browser_util';
 import {merge, timer} from 'rxjs';
@@ -72,6 +72,21 @@ import {MyInput, MyInputForm} from './value_accessor_integration_spec';
         dispatchEvent(input.nativeElement, 'input');
 
         expect(form.value).toEqual({'login': 'updatedValue'});
+      });
+
+      fit('work with formGroups to set errors', () => {
+        const fixture = initTest(FormGroupComp);
+        const fm = new FormBuilder();
+        const form = fm.group({
+          'login': ['', Validators.required]
+        });
+
+        fixture.componentInstance.form = form;
+        // fixture.detectChanges();
+
+        const login = form.controls.login;
+        login.setErrors({ incorrect: true });
+        expect(login.errors).toEqual({incorrect: true});
       });
     });
 
